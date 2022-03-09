@@ -19,7 +19,9 @@ with open(path, "r") as fil:
     for _features in features:
         out = out_path + "{0}-{1}-{2}.geojson".format(
             _features["properties"]["N03_001"],
-            _features["properties"]["N03_003"] if _features["properties"]["N03_003"] is not None else "",
+            _features["properties"]["N03_003"]
+            if _features["properties"]["N03_003"] is not None
+            else "",
             _features["properties"]["N03_004"],
         )
         with open(out, "w") as ofil:
@@ -28,7 +30,7 @@ with open(path, "r") as fil:
                     "type": _type,
                     "name": _name,
                     "crs": _crs,
-                    "features": _features,
+                    "features": [_features],
                 },
                 ofil,
                 ensure_ascii=False,
