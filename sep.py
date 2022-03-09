@@ -16,17 +16,13 @@ with open(path, "r") as fil:
     _name = data["name"]
     _crs = data["crs"]
     features = data["features"]
-    for fea in features:
+    for _features in features:
         out = out_path + "{0}-{1}-{2}.geojson".format(
-            fea["properties"]["N03_001"],
-            fea["properties"]["N03_003"],
-            fea["properties"]["N03_004"],
+            _features["properties"]["N03_001"],
+            _features["properties"]["N03_003"] if _features["properties"]["N03_003"] is not None else "",
+            _features["properties"]["N03_004"],
         )
-        # poly = Polygon()
-        # f = Feature(geometry=poly, properties={"country": "Spain"})
-        # d = geojson.dumps(f, sort_keys=True)
-        _features = fea["geometry"]["coordinates"]
-        with open(out, "w") as of:
+        with open(out, "w") as ofil:
             geojson.dump(
                 {
                     "type": _type,
@@ -34,6 +30,7 @@ with open(path, "r") as fil:
                     "crs": _crs,
                     "features": _features,
                 },
-                of,
+                ofil,
                 ensure_ascii=False,
+                indent=2,
             )
